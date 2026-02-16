@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Forever Chinni</title>
+    <style>
+        :root {
+            --primary-red: #d90429;
+            --soft-pink: #fff0f3;
+            --gold: #d4af37;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Georgia', serif;
+            background: radial-gradient(circle, #fff0f3 0%, #ffccd5 100%);
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow: hidden;
+            text-align: center;
+        }
+
+        #main-card {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            max-width: 450px; width: 90%;
+            z-index: 10; border: 2px solid white;
+        }
+
+        h1 { color: var(--primary-red); font-size: 2.2rem; }
+        p { color: #444; font-size: 1.1rem; line-height: 1.6; }
+
+        .btn {
+            color: white; border: none;
+            padding: 15px 35px; border-radius: 50px;
+            cursor: pointer; font-size: 1.1rem; font-weight: bold;
+            transition: all 0.3s ease; margin: 10px;
+        }
+
+        .btn-yes { background-color: var(--primary-red); }
+        .btn-no { background-color: #888; transition: 0.1s; }
+        
+        .hidden { display: none; }
+        .fade-in { animation: fadeIn 1.5s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <audio id="loveSong" loop>
+        <source src="Priyathama Priyathama - SenSongsmp3.Co.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="sadSong" loop>
+        <source src="Kanulanu Thaake - SenSongsMp3.Co.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="main-card">
+        <div id="lock-screen">
+            <h1>❤️ For My Chinni</h1>
+            <p>Please enter your date of birth...<br>(MM/DD)</p>
+            <input type="text" id="passInput" placeholder="05/03" style="padding: 10px; border-radius: 10px; border: 1px solid red; text-align: center;">
+            <br>
+            <button class="btn btn-yes" onclick="unlock()">Unlock Our Story</button>
+        </div>
+
+        <div id="story-screen" class="hidden">
+            <h1 class="fade-in">To My Soulmate,</h1>
+            <p class="fade-in">Every day with you is a dream come true. I have a question to ask you...</p>
+            <button class="btn btn-yes" onclick="showProposal()">Click Here</button>
+        </div>
+
+        <div id="proposal-section" class="hidden">
+            <h1 style="font-size: 3.5rem;">💍</h1>
+            <h1 style="color: var(--gold);" id="questionText">Will you marry me?</h1>
+            <p id="subText">And be my Valentine for a lifetime?</p>
+            
+            <button class="btn btn-yes" onclick="sayYes()">YES! ❤️</button>
+            <button class="btn btn-no" id="noBtn" onmouseover="moveNo()" onclick="sayNo()">No</button>
+        </div>
+
+        <div id="final-screen" class="hidden">
+            <h1 style="font-size: 4rem;">🌹</h1>
+            <h2 style="color: var(--gold);">She Said Yes!</h2>
+            <p>I Love You Forever, Chinni! ✨♾️</p>
+        </div>
+    </div>
+
+    <script>
+        const DATE = "05/03"; 
+        const loveAudio = document.getElementById('loveSong');
+        const sadAudio = document.getElementById('sadSong');
+
+        function unlock() {
+            if(document.getElementById('passInput').value === DATE) {
+                document.getElementById('lock-screen').classList.add('hidden');
+                document.getElementById('story-screen').classList.remove('hidden');
+            } else { alert("Incorrect date! Try again, Chinni."); }
+        }
+
+        function showProposal() {
+            document.getElementById('story-screen').classList.add('hidden');
+            document.getElementById('proposal-section').classList.remove('hidden');
+        }
+
+        function moveNo() {
+            const noBtn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            
+            sadAudio.play();
+            loveAudio.pause();
+            document.getElementById('questionText').innerText = "Rethink please? 🥺";
+            document.getElementById('subText').innerText = "My heart is breaking...";
+        }
+
+        function sayNo() {
+            moveNo();
+        }
+
+        function sayYes() {
+            document.getElementById('proposal-section').classList.add('hidden');
+            document.getElementById('final-screen').classList.remove('hidden');
+            
+            sadAudio.pause();
+            sadAudio.currentTime = 0;
+            loveAudio.play();
+            
+            launchHearts();
+        }
+
+        function launchHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = ['❤️','💍','✨','🌹'][Math.floor(Math.random()*4)];
+                heart.style.position = 'fixed';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '100vh';
+                heart.style.fontSize = '24px';
+                heart.style.transition = 'transform 4s linear, opacity 4s';
+                document.body.appendChild(heart);
+                setTimeout(() => {
+                    heart.style.transform = `translateY(-110vh) rotate(${Math.random() * 360}deg)`;
+                    heart.style.opacity = '0';
+                }, 100);
+            }, 200);
+        }
+    </script>
+</body>
+</html>
